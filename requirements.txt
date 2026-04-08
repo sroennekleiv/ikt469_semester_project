@@ -1,0 +1,6 @@
+python-dotenv
+numpy
+datasets
+torch
+torchvision
+clip
