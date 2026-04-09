@@ -9,6 +9,7 @@ class ContrastiveModel(nn.Module):
 
         backbone = models.resnet18(weights=None)
         backbone.fc = nn.Identity()
+
         self.backbone = backbone
 
         self.embedding = nn.Linear(512, embedding_dim)

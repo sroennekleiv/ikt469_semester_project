@@ -1,3 +1,0 @@
-import clip
-import torch
-
