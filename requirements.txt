@@ -4,3 +4,5 @@ datasets
 torch
 torchvision
 clip
+scikit-learn
+matplotlib

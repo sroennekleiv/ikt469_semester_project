@@ -30,27 +30,40 @@ class Cifar100Dataset:
     
     def _train_transform(self, batch):
         images = [self.train_transform(img.convert("RGB")) for img in batch["img"]]
-        labels = batch["fine_label"]
+        labels = torch.tensor(batch["fine_label"], dtype=torch.long) # Ensure labels are tensors
         return {"image": images, "label": labels}
 
     def _test_transform(self, batch):
         images = [self.test_transform(img.convert("RGB")) for img in batch["img"]]
-        labels = batch["fine_label"]
+        labels = torch.tensor(batch["fine_label"], dtype=torch.long) # Ensure labels are tensors
         return {"image": images, "label": labels}
     
-    def get_dataloaders(self):
+    def _collate_fn(self, batch):
+        images = torch.stack([item["image"] for item in batch])
+        labels = torch.tensor([item["label"] for item in batch], dtype=torch.long)
+        return images, labels
+    
+    def get_dataloaders(self, subset_size=None):
+        if subset_size is not None:
+            self.train_ds = torch.utils.data.Subset(self.train_ds, indices=range(min(subset_size, len(self.train_ds))))
+            self.test_ds = torch.utils.data.Subset(self.test_ds, indices=range(min(subset_size, len(self.test_ds))))
+
         train_loader = DataLoader(
             self.train_ds,
             batch_size=self.batch_size,
             shuffle=True,
-            num_workers=self.num_workers
+            drop_last=True,
+            num_workers=self.num_workers,
+            collate_fn=self._collate_fn
         )
 
         test_loader = DataLoader(
             self.test_ds,
             batch_size=self.batch_size,
             shuffle=False,
-            num_workers=self.num_workers
+            drop_last=False,
+            num_workers=self.num_workers,
+            collate_fn=self._collate_fn
         )
 
         return train_loader, test_loader

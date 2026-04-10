@@ -7,32 +7,38 @@ class ContrastiveTrainerAndEvaluator:
         self.device = device
         self.optimizer = torch.optim.Adam(self.model.parameters(), lr=1e-3)
         
-        # Contrastive loss function to encourage similar samples to be close and dissimilar samples to be apart in the embedding space
+        # Contrastive loss function to encourage similar (1) samples to be close and 
+        # dissimilar (-1) samples to be apart in the embedding space
         self.criterion = nn.CosineEmbeddingLoss(margin=margin)
 
     def train(self, train_loader):
         self.model.train()
-        total_loss = 0
+        total_loss = 0.0
 
         for x, y in train_loader:
-            # Generate pairs of samples and their corresponding labels (1 for similar, 0 for dissimilar)
-            pairs, targets = self.model.get_label_pairs(x, y)
+            x, y = x.to(self.device), y.to(self.device)
 
-            # Convert pairs to tensors
-            pairs = [(p[0].unsqueeze(0), p[1].unsqueeze(0)) for p in pairs]
+            # Generate pairs of samples and their corresponding labels (1 for similar, -1 for dissimilar)
+            pairs, targets = self.model.get_label_pairs(x, y)
             targets = targets.to(self.device)
 
             self.optimizer.zero_grad()
-            losses = []
+            loss_list = []
 
             # Compute the contrastive loss for each pair of samples
             for (x1, x2), target in zip(pairs, targets):
+                if x1.dim() == 3:
+                    x1 = x1.unsqueeze(0)
+                if x2.dim() == 3:
+                    x2 = x2.unsqueeze(0)
+
                 _, p1 = self.model(x1)
                 _, p2 = self.model(x2)
-                loss = self.criterion(p1, p2, target.unsqueeze(0))
-                losses.append(loss)
 
-            batch_loss = torch.stack(losses).mean()
+                loss = self.criterion(p1, p2, target.unsqueeze(0))
+                loss_list.append(loss)
+            
+            batch_loss = torch.stack(loss_list).mean()
             batch_loss.backward()
             self.optimizer.step()
 
@@ -44,38 +50,46 @@ class ContrastiveTrainerAndEvaluator:
     def evaluate(self, test_loader):
         self.model.eval()
 
-        total_loss, correct, total = 0, 0, 0
+        total_loss, correct = 0.0, 0
+        total_pairs = 0
         
         with torch.no_grad():
             for x, y in test_loader:
                 x, y = x.to(self.device), y.to(self.device)
 
                 pairs, targets = self.model.get_label_pairs(x, y)
-                pairs = [(p[0].unsqueeze(0), p[1].unsqueeze(0)) for p in pairs]
                 targets = targets.to(self.device)
 
-                losses = []
+                loss_list = []
+
                 for (x1, x2), target in zip(pairs, targets):
+                    if x1.dim() == 3:
+                        x1 = x1.unsqueeze(0)
+                    if x2.dim() == 3:
+                        x2 = x2.unsqueeze(0)
+
                     _, p1 = self.model(x1)
                     _, p2 = self.model(x2)
+
                     loss = self.criterion(p1, p2, target.unsqueeze(0))
-                    losses.append(loss)
-
-                batch_loss = torch.stack(losses).mean()
-                total_loss += batch_loss.item() * x.size(0)
-
-                # For evaluation, we can compute accuracy based on the similarity of embeddings
-                with torch.no_grad():
-                    for (x1, x2), target in zip(pairs, targets):
-                        _, p1 = self.model(x1)
-                        _, p2 = self.model(x2)
-                        similarity = torch.cosine_similarity(p1, p2)
-                        predicted = (similarity > 0.5).float()  # Threshold for similarity
-                        correct += (predicted == target).sum().item()
-                        total += target.size(0)
+                    loss_list.append(loss)
             
-        avg_loss = total_loss / len(test_loader.dataset)
-        accuracy = correct / total
+                    similarity = torch.cosine_similarity(p1, p2, dim=1)
+                    pred = torch.where(
+                        similarity > 0.5, 
+                        torch.tensor(1.0, device=self.device), 
+                        torch.tensor(-1.0, device=self.device)
+                    )
+
+                    correct += (pred == target).sum().item()
+                    total_pairs += 1
+                
+                batch_loss = torch.stack(loss_list).mean()
+                total_loss += batch_loss.item() * x.size(0)
+                
+            avg_loss = total_loss / max(total_pairs, 1)
+            accuracy = correct / max(total_pairs, 1) * 100.0
+
         return avg_loss, accuracy
 
     def run_experiment(self, train_loader, test_loader, epochs):
