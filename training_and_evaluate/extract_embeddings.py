@@ -21,8 +21,7 @@ class ExtractEmbeddings:
 
         with torch.no_grad():
             for x, y in data_loader:
-                x = x.to(self.device)
-                _, z = model(x) # Extract embeddings from the model
+                z, p = model(x) # Extract embeddings from the model
                 embeddings.append(z.cpu())
                 labels.append(y.cpu())
                 images.append(x.cpu())

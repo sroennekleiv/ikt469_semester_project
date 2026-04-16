@@ -6,3 +6,5 @@ torchvision
 clip
 scikit-learn
 matplotlib
+keras
+tensorflow

@@ -1,72 +1,80 @@
 import torch
+import numpy as np
 
-from torch.utils.data import DataLoader
-from torchvision import transforms
-from datasets import load_dataset
+from .data_preprocess import PreProcessingClass
+from keras.datasets import fashion_mnist
+from torch.utils.data import Dataset, DataLoader, TensorDataset
 
-class Cifar100Dataset:
-    def __init__(self, batch_size=64, num_workers=2):
+class SplitDataset(Dataset):
+    def __init__(self, split_fraction=0.5):
+        self.split_fraction = split_fraction
+        
+    def split(self, X, y):
+        assert len(X) == len(y), "Features and labels must have the same length"
+
+        num_samples = len(X)
+    
+        rng = np.random.default_rng(42)
+        indices = np.random.permutation(num_samples) # Shuffle indices
+        rng.shuffle(indices)
+
+        split_size = int(num_samples * self.split_fraction)
+
+        split_indices = indices[:split_size]
+        remaining_indices = indices[split_size:]
+
+        X_split = X[split_indices]
+        y_split = y[split_indices]
+
+        X_remaining = X[remaining_indices]
+        y_remaining = y[remaining_indices]
+
+        return X_split, y_split, X_remaining, y_remaining
+    
+class FashionMNISTDataset:
+    def __init__(self, batch_size=64, size=28, split_fraction=0.5):
         self.batch_size = batch_size
-        self.num_workers = num_workers
+        self.size = size
+        self.split_fraction = split_fraction
 
-        self.dataset = load_dataset('uoft-cs/cifar100')
+        (self.train_X, self.train_y), (self.test_X, self.test_y) = fashion_mnist.load_data()
+        
+        self.preprocessor = PreProcessingClass(size=self.size)
+        self.splitter = SplitDataset(split_fraction=self.split_fraction)
 
-        self.train_transform = transforms.Compose([
-            transforms.RandomHorizontalFlip(),
-            transforms.RandomCrop(32, padding=4),
-            transforms.ToTensor(),
-            transforms.Normalize((0.5071, 0.4867, 0.4408),
-                                 (0.2675, 0.2565, 0.2761))
+    def get_dataloaders(self):
+        # Split the train set into a smaller test set and a validation set
+        self.train_X, self.train_y, self.val_X, self.val_y = self.splitter.split(self.train_X, self.train_y)
+
+        # Preprocess the data
+        train_X = torch.stack([
+            self.preprocessor.preprocess(img, augment=True) for img in self.train_X
         ])
 
-        self.test_transform = transforms.Compose([
-            transforms.ToTensor(),
-            transforms.Normalize((0.5071, 0.4867, 0.4408),
-                                 (0.2675, 0.2565, 0.2761))
+        val_X = torch.stack([
+            self.preprocessor.preprocess(img, augment=False) for img in self.val_X
         ])
 
-        self.train_ds = self.dataset["train"].with_transform(self._train_transform)
-        self.test_ds = self.dataset["test"].with_transform(self._test_transform)
+        test_X = torch.stack([
+            self.preprocessor.preprocess(img, augment=False) for img in self.test_X
+        ])
+
+        # Convert labels to tensors
+        train_y = torch.tensor(self.train_y, dtype=torch.long)
+        val_y = torch.tensor(self.val_y, dtype=torch.long)
+        test_y = torch.tensor(self.test_y, dtype=torch.long)
+
+        # Create PyTorch datasets and dataloaders
+        train_dataset = TensorDataset(train_X, train_y)
+        val_dataset = TensorDataset(val_X, val_y)
+        test_dataset = TensorDataset(test_X, test_y)
+
+        self.train_loader = DataLoader(train_dataset, batch_size=self.batch_size, shuffle=True)
+        self.val_loader = DataLoader(val_dataset, batch_size=self.batch_size, shuffle=False)
+        self.test_loader = DataLoader(test_dataset, batch_size=self.batch_size, shuffle=False)
+
+        return self.train_loader, self.val_loader, self.test_loader
     
-    def _train_transform(self, batch):
-        images = [self.train_transform(img.convert("RGB")) for img in batch["img"]]
-        labels = torch.tensor(batch["fine_label"], dtype=torch.long) # Ensure labels are tensors
-        return {"image": images, "label": labels}
-
-    def _test_transform(self, batch):
-        images = [self.test_transform(img.convert("RGB")) for img in batch["img"]]
-        labels = torch.tensor(batch["fine_label"], dtype=torch.long) # Ensure labels are tensors
-        return {"image": images, "label": labels}
-    
-    def _collate_fn(self, batch):
-        images = torch.stack([item["image"] for item in batch])
-        labels = torch.tensor([item["label"] for item in batch], dtype=torch.long)
-        return images, labels
-    
-    def get_dataloaders(self, subset_size=None):
-        if subset_size is not None:
-            self.train_ds = torch.utils.data.Subset(self.train_ds, indices=range(min(subset_size, len(self.train_ds))))
-            self.test_ds = torch.utils.data.Subset(self.test_ds, indices=range(min(subset_size, len(self.test_ds))))
-
-        train_loader = DataLoader(
-            self.train_ds,
-            batch_size=self.batch_size,
-            shuffle=True,
-            drop_last=True,
-            num_workers=self.num_workers,
-            collate_fn=self._collate_fn
-        )
-
-        test_loader = DataLoader(
-            self.test_ds,
-            batch_size=self.batch_size,
-            shuffle=False,
-            drop_last=False,
-            num_workers=self.num_workers,
-            collate_fn=self._collate_fn
-        )
-
-        return train_loader, test_loader
-
     def get_class_names(self):
-        return self.dataset['train'].features['fine_label'].names
+        return ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat', 'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
+        

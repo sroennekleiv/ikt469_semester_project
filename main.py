@@ -1,6 +1,6 @@
 import torch
 
-from utils.dataset import Cifar100Dataset
+from utils.dataset import FashionMNISTDataset
 
 from training_and_evaluate.train_expert import ExpertTrainerAndEvaluator
 from training_and_evaluate.train_autoencoder import AutoEncoderTrainerAndEvaluator
@@ -18,13 +18,11 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 EPOCHS = 30
 
 if __name__ == '__main__':
-    dataset = Cifar100Dataset(batch_size=128, num_workers=1)
-    train_df, test_df = dataset.get_dataloaders(subset_size=1000)
+    dataset = FashionMNISTDataset(batch_size=64, size=28, split_fraction=0.5)
+    train_df, val_df, test_df = dataset.get_dataloaders()
     class_names = dataset.get_class_names()
 
-    print(f"Number of training samples: {len(train_df.dataset)}")
-    print(f"Number of test samples: {len(test_df.dataset)}")
-    print(f"Class names length: {len(class_names)}")
+    print(f"Train: {len(train_df)}, Val: {len(val_df)}, Test: {len(test_df)}")
 
     NUM_CLASSES = len(class_names)
 
@@ -39,7 +37,7 @@ if __name__ == '__main__':
     visualizer.visualize(model_name='autoencoder', embeddings=embeddings, labels=labels)'''
 
     # Contrastive
-    contrastive_model = ContrastiveModel(in_channels=3, embedding_dim=128, projection_dim=64).to(device)
+    contrastive_model = ContrastiveModel(in_channels=1, embedding_dim=128, projection_dim=64).to(device)
     contrastive_trainer = ContrastiveTrainerAndEvaluator(contrastive_model, margin=1.0, device=device)
     test_loss, test_accuracy = contrastive_trainer.run_experiment(train_df, test_df, epochs=EPOCHS)
     embeddings, labels, images = embedding_extractor.extract_embeddings(contrastive_model, test_df, num_classes=NUM_CLASSES)
