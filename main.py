@@ -15,10 +15,10 @@ from models.autoencoder import AutoencoderModel
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-EPOCHS = 30
+EPOCHS = 10
 
 if __name__ == '__main__':
-    dataset = FashionMNISTDataset(batch_size=64, size=28, split_fraction=0.5)
+    dataset = FashionMNISTDataset(batch_size=64, size=32, split_fraction=0.5)
     train_df, val_df, test_df = dataset.get_dataloaders()
     class_names = dataset.get_class_names()
 
@@ -29,24 +29,26 @@ if __name__ == '__main__':
     embedding_extractor = ExtractEmbeddings(device=device)
     visualizer = VisualizeEmbeddings()
 
-    '''# Autoencoder
-    autoencoder_model = AutoencoderModel(embedding_dim=128).to(device)
+    # Autoencoder
+    '''autoencoder_model = AutoencoderModel(in_channels=1, embedding_dim=128).to(device)
     autoencoder_trainer = AutoEncoderTrainerAndEvaluator(autoencoder_model)
     test_loss = autoencoder_trainer.run_experiment(train_df, test_df, epochs=EPOCHS)
     embeddings, labels, images = embedding_extractor.extract_embeddings(autoencoder_model, test_df, num_classes=NUM_CLASSES)
-    visualizer.visualize(model_name='autoencoder', embeddings=embeddings, labels=labels)'''
-
+    visualizer.visualize(model_name='autoencoder', embeddings=embeddings, labels=labels)
+'''
     # Contrastive
     contrastive_model = ContrastiveModel(in_channels=1, embedding_dim=128, projection_dim=64).to(device)
-    contrastive_trainer = ContrastiveTrainerAndEvaluator(contrastive_model, margin=1.0, device=device)
-    test_loss, test_accuracy = contrastive_trainer.run_experiment(train_df, test_df, epochs=EPOCHS)
+    contrastive_trainer = ContrastiveTrainerAndEvaluator(contrastive_model, temperature=1.0, device=device)
+    test_loss = contrastive_trainer.run_experiment(train_df, test_df, epochs=EPOCHS)
     embeddings, labels, images = embedding_extractor.extract_embeddings(contrastive_model, test_df, num_classes=NUM_CLASSES)
     visualizer.visualize(model_name='contrastive', embeddings=embeddings, labels=labels)
 
-    '''# Pretrained
+    # Pretrained
 
     # Experts
-    mixture_of_experts = MixtureOfExperts(num_experts=3, num_classes=len(class_names))
+''' mixture_of_experts = MixtureOfExperts(num_classes=len(class_names))
     expert_trainer = ExpertTrainerAndEvaluator(mixture_of_experts, device)
     test_loss, test_acc = expert_trainer.run_experiment(train_df, test_df, epochs=EPOCHS)
-    '''
+    embeddings, labels, images = embedding_extractor.extract_embeddings(mixture_of_experts, test_df, num_classes=NUM_CLASSES)
+    visualizer.visualize(model_name='mixtureofexpers', embeddings=embeddings, labels=labels)
+   ''' 

@@ -16,7 +16,7 @@ class ExpertTrainerAndEvaluator:
             x, y = x.to(self.device), y.to(self.device)
 
             self.optimizer.zero_grad()
-            outputs = self.model(x)
+            _ , outputs = self.model(x)
             loss = self.criterion(outputs, y)
             loss.backward()
             self.optimizer.step()
@@ -37,7 +37,7 @@ class ExpertTrainerAndEvaluator:
         with torch.no_grad():
             for x, y in test_loader:
                 x, y = x.to(self.device), y.to(self.device)
-                outputs = self.model(x)
+                _ , outputs = self.model(x)
                 loss = self.criterion(outputs, y)
 
                 total_loss += loss.item() * x.size(0)

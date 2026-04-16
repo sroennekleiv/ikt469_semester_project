@@ -38,7 +38,7 @@ class ResidualNet(nn.Module):
 
         # Initial convolutional layer to reduce spatial dimensions and increase channels
         self.stem = nn.Sequential(
-            nn.Conv2d(1, 32, 3, padding=1),
+            nn.Conv2d(32, 32, 3, padding=1),
             nn.ReLU(),
             nn.MaxPool2d(2)
         )

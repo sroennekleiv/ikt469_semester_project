@@ -48,7 +48,7 @@ class FashionMNISTDataset:
 
         # Preprocess the data
         train_X = torch.stack([
-            self.preprocessor.preprocess(img, augment=True) for img in self.train_X
+            self.preprocessor.preprocess(img, augment=False) for img in self.train_X
         ])
 
         val_X = torch.stack([
@@ -58,6 +58,8 @@ class FashionMNISTDataset:
         test_X = torch.stack([
             self.preprocessor.preprocess(img, augment=False) for img in self.test_X
         ])
+
+        #print(f"Shape: {train_X.shape}")
 
         # Convert labels to tensors
         train_y = torch.tensor(self.train_y, dtype=torch.long)

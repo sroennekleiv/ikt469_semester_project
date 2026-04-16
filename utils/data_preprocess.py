@@ -6,7 +6,7 @@ class PreProcessingClass:
         self.size = size
 
     def preprocess(self, image, augment=False):
-        if isinstance(self, torch.Tensor):
+        if isinstance(image, torch.Tensor):
             image = image.numpy()
 
         if augment: # Apply data augmentation during training

@@ -1,3 +1,4 @@
+import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
@@ -40,6 +41,7 @@ class Experts(nn.Module):
 
         # Compute outputs from each expert model
         experts_outputs = [expert(x) for expert in self.experts]
+        experts_outputs = torch.stack(experts_outputs, dim=1)
 
         # Combine expert outputs using the computed gate weights to produce final output
         gate_weights = gate_weights.unsqueeze(-1)
@@ -70,6 +72,12 @@ class MixtureOfExperts(nn.Module):
             nn.Linear(256, num_classes)
         )
 
+        self.projector = nn.Sequential(
+            nn.AdaptiveAvgPool2d(1),
+            nn.Flatten(),
+            nn.Linear(128, 64)
+        )
+
         self.router = Router(32, 3)
 
         # Mixture of experts module to dynamically route input samples to different expert models based on learned routing weights
@@ -78,4 +86,4 @@ class MixtureOfExperts(nn.Module):
     def forward(self, x):
         x = self.stem(x)
         output = self.experts(x)
-        return output
+        return x, output

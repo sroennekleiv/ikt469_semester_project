@@ -22,6 +22,9 @@ class ExtractEmbeddings:
         with torch.no_grad():
             for x, y in data_loader:
                 z, p = model(x) # Extract embeddings from the model
+
+                z = z.view(z.size(0), -1)
+                
                 embeddings.append(z.cpu())
                 labels.append(y.cpu())
                 images.append(x.cpu())

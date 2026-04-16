@@ -25,6 +25,7 @@ class AutoEncoderTrainerAndEvaluator:
 
             total_loss += loss.item() * x.size(0)
             total += x.size(0)
+
         avg_loss = total_loss / total
         return avg_loss
 
@@ -40,7 +41,9 @@ class AutoEncoderTrainerAndEvaluator:
                 loss = self.criterion(x_hat, x)
 
                 total_loss += loss.item() * x.size(0)
-        avg_loss = total_loss / len(test_loader.dataset)
+                total += x.size(0)
+
+        avg_loss = total_loss / max(total, 1)
 
         return avg_loss
     
