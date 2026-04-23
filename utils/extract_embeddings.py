@@ -21,6 +21,9 @@ class ExtractEmbeddings:
 
         with torch.no_grad():
             for x, y in data_loader:
+                x = x.float().to(self.device)
+                y = y.to(self.device)
+
                 z, p = model(x) # Extract embeddings from the model
 
                 z = z.view(z.size(0), -1)
@@ -67,16 +70,6 @@ class ExtractEmbeddings:
             plt.axis('off')
         
         plt.suptitle(title)
-        plt.tight_layout()
-        plt.show()
-    
-    def visualize_single_embedding(self, embedding, label):
-        plt.figure(figsize=(10, 10))
-        plt.scatter(embedding[:, 0], embedding[:, 1], c=label, cmap='tab10', alpha=0.7)
-        plt.colorbar()
-        plt.title("t-SNE Visualization of Embeddings")
-        plt.xlabel("Dimension 1")
-        plt.ylabel("Dimension 2")
         plt.tight_layout()
         plt.show()
     

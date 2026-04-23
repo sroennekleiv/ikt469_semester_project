@@ -6,11 +6,11 @@ from training_and_evaluate.train_expert import ExpertTrainerAndEvaluator
 from training_and_evaluate.train_autoencoder import AutoEncoderTrainerAndEvaluator
 from training_and_evaluate.train_contrastive import ContrastiveTrainerAndEvaluator
 
-from training_and_evaluate.extract_embeddings import ExtractEmbeddings, VisualizeEmbeddings
+from utils.extract_embeddings import ExtractEmbeddings, VisualizeEmbeddings
 
 from models.mixtureofexperts.mixture_of_experts import MixtureOfExperts
 from models.contrastive import ContrastiveModel
-from models.pretrained import PretrainedModel
+from models.pretrained import PretrainedCLIPModel
 from models.autoencoder import AutoencoderModel
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -19,10 +19,10 @@ EPOCHS = 10
 
 if __name__ == '__main__':
     dataset = FashionMNISTDataset(batch_size=64, size=32, split_fraction=0.5)
-    train_df, val_df, test_df = dataset.get_dataloaders()
+    train_df, test_df = dataset.get_dataloaders(is_contrastive=True)
     class_names = dataset.get_class_names()
 
-    print(f"Train: {len(train_df)}, Val: {len(val_df)}, Test: {len(test_df)}")
+    print(f"Train: {len(train_df.dataset)}, Test: {len(test_df.dataset)}")
 
     NUM_CLASSES = len(class_names)
 
@@ -44,6 +44,7 @@ if __name__ == '__main__':
     visualizer.visualize(model_name='contrastive', embeddings=embeddings, labels=labels)
 
     # Pretrained
+    
 
     # Experts
 ''' mixture_of_experts = MixtureOfExperts(num_classes=len(class_names))

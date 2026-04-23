@@ -6,7 +6,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 class AutoEncoderTrainerAndEvaluator:
     def __init__(self, model):
         self.model = model.to(device)
-        self.optimizer = torch.optim.Adam(self.model.parameters(), lr=1e-3)
+        self.optimizer = torch.optim.Adam(self.model.parameters(), lr=1e-2)
         self.criterion = nn.MSELoss()
         self.device = device
 
