@@ -11,17 +11,26 @@ class Router(nn.Module):
     def __init__(self, in_channels, num_experts):
         super().__init__()
 
-        # Network to compute routing weights
+        # IMPROVED: Deeper router network with more capacity
         self.network = nn.Sequential(
-            nn.Conv2d(in_channels, 16, 3, padding=1),
+            nn.Conv2d(in_channels, 64, 3, padding=1),
+            nn.BatchNorm2d(64),
+            nn.ReLU(),
+            nn.Conv2d(64, 32, 3, padding=1),
+            nn.BatchNorm2d(32),
             nn.ReLU(),
             nn.AdaptiveAvgPool2d(1),
             nn.Flatten(),
-            nn.Linear(16, num_experts)
+            nn.Linear(32, 64),
+            nn.ReLU(),
+            nn.Linear(64, num_experts)
         )
-    
+
     def forward(self, x):
-        return F.softmax(self.network(x), dim=-1)
+        logits = self.network(x)
+        # Add temperature scaling for better specialization
+        temperature = 5.0
+        return F.softmax(logits / temperature, dim=-1)
 
 class Experts(nn.Module):
     def __init__(self, experts, router):
@@ -32,21 +41,20 @@ class Experts(nn.Module):
         self.router = router
         self.num_experts = len(experts)
 
-    def forward(self, x):
+    def forward(self, x, return_routing=False):
         # Compute routing weights for each input sample
-        routing_weights = self.router(x)
-
-        # Normalize routing weights to ensure they sum to 1 across experts
-        gate_weights = F.softmax(routing_weights, dim=-1)
+        gate_weights = self.router(x)  # Already softmax from router
 
         # Compute outputs from each expert model
         experts_outputs = [expert(x) for expert in self.experts]
         experts_outputs = torch.stack(experts_outputs, dim=1)
 
         # Combine expert outputs using the computed gate weights to produce final output
-        gate_weights = gate_weights.unsqueeze(-1)
-        output = (gate_weights * experts_outputs).sum(dim=1)
+        gate_weights_expanded = gate_weights.unsqueeze(-1)
+        output = (gate_weights_expanded * experts_outputs).sum(dim=1)
 
+        if return_routing:
+            return output, gate_weights
         return output
     
 class MixtureOfExperts(nn.Module):
@@ -83,7 +91,11 @@ class MixtureOfExperts(nn.Module):
         # Mixture of experts module to dynamically route input samples to different expert models based on learned routing weights
         self.experts = Experts([self.fire, self.inception, self.residual], self.router)
 
-    def forward(self, x):
+    def forward(self, x, return_routing=False):
         x = self.stem(x)
-        output = self.experts(x)
-        return x, output
+        if return_routing:
+            output, routing_weights = self.experts(x, return_routing=True)
+            return x, output, routing_weights
+        else:
+            output = self.experts(x, return_routing=False)
+            return x, output

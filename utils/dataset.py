@@ -1,7 +1,7 @@
 import torch
 import numpy as np
 
-from .data_preprocess import PreProcessingClass
+from utils.data_preprocess import PreProcessingClass
 from keras.datasets import fashion_mnist
 from torch.utils.data import Dataset, DataLoader, TensorDataset
 
@@ -29,8 +29,6 @@ class FashionMNISTDataset:
             test_X = torch.stack([
                 self.preprocessor.preprocess(img, augment=False) for img in self.test_X
             ])
-
-        #print(f"Shape: {train_X.shape}")
 
         # Convert labels to tensors
         train_y = torch.tensor(self.train_y, dtype=torch.long)

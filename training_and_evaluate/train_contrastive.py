@@ -16,16 +16,15 @@ class SimCLRLoss(nn.Module):
         z2 = F.normalize(z2, dim=1)
 
         representations = torch.cat([z1, z2], dim=0)
-
         similarity_matrix = torch.matmul(representations, representations.T)
 
         labels = torch.arange(batch_size, device=z1.device)
-        labels = torch.cat([labels + batch_size, labels])
+        labels = torch.cat([labels + batch_size, labels], dim=0)
 
         mask = torch.eye(2 * batch_size, dtype=torch.bool, device=z1.device)
 
         similarity_matrix = similarity_matrix / self.temperature
-        similarity_matrix = similarity_matrix.masked_fill(mask, -1e9)
+        similarity_matrix = similarity_matrix.masked_fill(mask, -9e9)
 
         loss = F.cross_entropy(similarity_matrix, labels)
         return loss
@@ -36,7 +35,7 @@ class ContrastiveTrainerAndEvaluator:
         self.device = device
         
         self.criterion = SimCLRLoss(temperature=temperature)
-        self.optimizer = torch.optim.AdamW(self.model.parameters(), lr=3e-3, weight_decay=1e-4)
+        self.optimizer = torch.optim.AdamW(self.model.parameters(), lr=1e-3, weight_decay=1e-4)
         self.scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(self.optimizer, T_max=10)
 
         self.preprocessor = PreProcessingClass(size=32)
@@ -45,13 +44,8 @@ class ContrastiveTrainerAndEvaluator:
 
 
     def get_two_views(self, x, augment=False):
-        view1 = torch.stack(
-            [self.preprocessor.preprocess(img.cpu(), augment=augment) for img in x]
-        ).float().to(self.device)
-
-        view2 = torch.stack(
-            [self.preprocessor.preprocess(img.cpu(), augment=augment) for img in x]
-        ).float().to(self.device)
+        view1 = torch.stack([self.preprocessor.preprocess(img.cpu(), augment=augment) for img in x]).float().to(self.device)
+        view2 = torch.stack([self.preprocessor.preprocess(img.cpu(), augment=augment) for img in x]).float().to(self.device)
         return view1, view2
 
     def train(self, train_loader):
@@ -64,7 +58,7 @@ class ContrastiveTrainerAndEvaluator:
             x = x.float()
             y = y.long().to(self.device)
 
-            # Generate pairs of samples and their corresponding labels (1 for similar, -1 for dissimilar)
+            # Generate two augmented views
             view1, view2 = self.get_two_views(x, augment=True)
 
             self.optimizer.zero_grad()
@@ -101,7 +95,7 @@ class ContrastiveTrainerAndEvaluator:
                 x = x.float()
                 y = y.long().to(self.device)
 
-                # Generate pairs of samples and their corresponding labels (1 for similar, -1 for dissimilar)
+                # Generate two augmented views (but without augmentation)
                 view1, view2 = self.get_two_views(x, augment=False)
 
                 z1, p1 = self.model(view1)
