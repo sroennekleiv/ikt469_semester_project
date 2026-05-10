@@ -1,43 +1,64 @@
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
+
+from .residualconvblock import ResiudualConvBlock
 
 class AutoencoderModel(nn.Module):
     def __init__(self, in_channels=1, embedding_dim=128):
         super().__init__()
         
         self.encoder = nn.Sequential(
-            nn.Conv2d(in_channels, 32, kernel_size=3, padding=1),
-            nn.BatchNorm2d(32),
-            nn.ReLU(),
-            nn.MaxPool2d(2, 2),  # 32x32 -> 16x16
-            nn.Conv2d(32, 64, kernel_size=3, padding=1),
-            nn.BatchNorm2d(64),
-            nn.ReLU(),
-            nn.MaxPool2d(2, 2),  # 16x16 -> 8x8
-            nn.Conv2d(64, 128, kernel_size=3, padding=1),
-            nn.BatchNorm2d(128),
-            nn.ReLU(),
-            nn.MaxPool2d(2, 2),  # 8x8 -> 4x4
+            ResiudualConvBlock(in_channels, 32, stride=2),
+            ResiudualConvBlock(32, 64, stride=2),
+            ResiudualConvBlock(64, 128, stride=2)
         )
 
-        self.flatten = nn.Flatten()
-        self.to_embedding = nn.Linear(128 * 4 * 4, embedding_dim)
-        self.from_embedding = nn.Linear(embedding_dim, 128 * 4 * 4)
+        # Pooling layer to reduce spatial dimensions and capture global features to learn more compact and informative representations
+        self.pool = nn.AdaptiveAvgPool2d(1)
+
+        self.embedding_layer = nn.Sequential(
+            nn.Flatten(),
+            nn.Linear(128, embedding_dim),
+            nn.BatchNorm1d(embedding_dim),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.2)
+        )
+
+        self.decoder_input = nn.Sequential(
+            nn.Linear(embedding_dim, 128 * 4 * 4),
+            nn.ReLU(inplace=True)
+        )
 
         self.decoder = nn.Sequential(
             nn.Unflatten(1, (128, 4, 4)),
             nn.ConvTranspose2d(128, 64, kernel_size=4, stride=2, padding=1),  # 4x4 -> 8x8
             nn.BatchNorm2d(64),
-            nn.ReLU(),
+            nn.ReLU(inplace=True),
             nn.ConvTranspose2d(64, 32, kernel_size=4, stride=2, padding=1),  # 8x8 -> 16x16
             nn.BatchNorm2d(32),
-            nn.ReLU(),
+            nn.ReLU(inplace=True),
             nn.ConvTranspose2d(32, 1, kernel_size=4, stride=2, padding=1),  # 16x16 -> 32x32
             nn.Sigmoid(),
         )
 
+    def encode(self, x):
+        features = self.encoder(x)
+        pooled = self.pool(features)
+        embedding = self.embedding_layer(pooled)
+        embedding = F.normalize(embedding, dim=-1)
+        return embedding
+    
+    def decode(self, x):
+        decoded = self.decoder_input(x)
+        reconstuct = self.decoder(decoded)
+        return reconstuct
+
     def forward(self, x):
-        encoded = self.encoder(x)
-        embedded = self.to_embedding(self.flatten(encoded))
-        decoded = self.decoder(self.from_embedding(embedded))
-        return decoded, embedded
+        embedding = self.encode(x)
+        reconstruction = self.decode(embedding)
+
+        return {
+            "reconstruction": reconstruction,
+            "embedding": embedding
+        }

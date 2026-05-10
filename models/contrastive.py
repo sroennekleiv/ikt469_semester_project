@@ -3,51 +3,58 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+from .residualconvblock import ResiudualConvBlock
+
 class ContrastiveModel(nn.Module):
-    def __init__(self, in_channels=1, embedding_dim=128, projection_dim=64):
+    def __init__(self, in_channels=1, embedding_dim=128, projection_dim=64, num_classes=10):
         super().__init__()
 
-        self.backbone = nn.Sequential(
-            nn.Conv2d(in_channels, 64, kernel_size=3, stride=2, padding=1),
-            nn.BatchNorm2d(64),
-            nn.ReLU(),
-
-            nn.Conv2d(64, 64, kernel_size=3, stride=2, padding=1),
-            nn.BatchNorm2d(64),
-            nn.ReLU(),
-
-            nn.Conv2d(64, 128, kernel_size=3, stride=2, padding=1),
-            nn.BatchNorm2d(128),
-            nn.ReLU(),
-
-            nn.Conv2d(128, 256, kernel_size=3, stride=2, padding=1),
-            nn.BatchNorm2d(256),
-            nn.ReLU(),
-
-            nn.Conv2d(256, 256, kernel_size=3, stride=2, padding=1),
-            nn.BatchNorm2d(256),
-            nn.ReLU(),
-
-            nn.AdaptiveAvgPool2d((1, 1))
+        self.encoder = nn.Sequential(
+            ResiudualConvBlock(in_channels, 64, stride=2),
+            ResiudualConvBlock(64, 128, stride=2),
+            ResiudualConvBlock(128, 256, stride=2),
+            ResiudualConvBlock(256, 256, stride=2),
         )
 
-        self.embedding = nn.Linear(256, embedding_dim)
+        self.pool = nn.AdaptiveAvgPool2d(1)
+        
+        self.embedding_head = nn.Sequential(
+            nn.Flatten(),
+            nn.Linear(256, embedding_dim),
+            nn.BatchNorm1d(embedding_dim),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.2)
+        )
 
         self.projector = nn.Sequential(
-            nn.Linear(embedding_dim, embedding_dim),
+            nn.Linear(embedding_dim, 256),
+            nn.BatchNorm1d(256),
             nn.ReLU(),
-            nn.Linear(embedding_dim, projection_dim)
+            nn.Linear(256, projection_dim)
+        )
+
+        self.classifier = nn.Sequential(
+            nn.Linear(embedding_dim, 128),
+            nn.ReLU(),
+            nn.Dropout(0.2),
+            nn.Linear(128, num_classes)
         )
     
     def forward(self, x):
-        # Extract features using the backbone and flatten them
-        features = self.backbone(x)
-        features = torch.flatten(features, start_dim=1)
+        # Extract features using the encoder and flatten them
+        features = self.encoder(x)
+        pooled = self.pool(features)
 
         # Project features to the embedding space and normalize
-        z = self.embedding(features)
-        z = F.normalize(z, dim=1)
+        embedding = self.embedding_head(pooled)
+        embedding = F.normalize(embedding, dim=1)
 
-        p = self.projector(z)
-        p = F.normalize(p, dim=1)
-        return z, p
+        proj = self.projector(embedding)
+        proj = F.normalize(proj, dim=1)
+
+        logits = self.classifier(embedding)
+        return {
+            "embedding": embedding,
+            "projection": proj,
+            "logits": logits
+        }

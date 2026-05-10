@@ -24,11 +24,10 @@ from models.autoencoder import AutoencoderModel
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-EPOCHS = 20
+EPOCHS = 10
 
 if __name__ == '__main__':
-    dataset = FashionMNISTDataset(batch_size=64, size=32
-                                  , split_fraction=0.5)
+    dataset = FashionMNISTDataset(batch_size=64, size=32, split_fraction=0.5)
     train_df, test_df = dataset.get_dataloaders(is_contrastive=False) # Enable and disable preprocessing on the dataset
     class_names = dataset.get_class_names()
 
@@ -53,11 +52,11 @@ if __name__ == '__main__':
     print(f"Time to extract embeddings: {elapsed_time:.2f} seconds")
 
     auto_results = benchmarker.run_experiment_functions(embeddings=auto_embeddings, labels=auto_labels)
-    print(f'Auto encoder Results: {auto_results}')
+    print(f'Auto encoder Results: {auto_results}')'''
 
     
     # Pretrained CLIP model with ViT-B/32 architecture
-    clip_model = PretrainedCLIPModel(device=device)
+    '''clip_model = PretrainedCLIPModel(device=device)
     start_time = time.time()
     clip_embeddings, clip_labels, clip_images = benchmarker.extract_embeddings(clip_model, test_df, num_classes=NUM_CLASSES)
     end_time = time.time()
@@ -85,8 +84,8 @@ if __name__ == '__main__':
     moe_results = benchmarker.run_experiment_functions(embeddings=moe_embeddings, labels=moe_labels)
     print(f'MoE Results: {moe_results}')
 
-    '''
-    # Contrastive
+    
+    '''# Contrastive
     contrastive_model = ContrastiveModel(in_channels=1, embedding_dim=128, projection_dim=64).to(device)
     contrastive_trainer = ContrastiveTrainerAndEvaluator(contrastive_model, temperature=0.07, device=device)
     test_loss = contrastive_trainer.run_experiment(train_df, test_df, epochs=EPOCHS)

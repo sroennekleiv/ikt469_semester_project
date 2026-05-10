@@ -1,90 +1,175 @@
 AUTOENCODER
 
-Epoch 1/20 - Train Loss: 0.5287
-Epoch 2/20 - Train Loss: 0.5089
-Epoch 3/20 - Train Loss: 0.5061
-Epoch 4/20 - Train Loss: 0.5048
-Epoch 5/20 - Train Loss: 0.5041
-Epoch 6/20 - Train Loss: 0.5035
-Epoch 7/20 - Train Loss: 0.5030
-Epoch 8/20 - Train Loss: 0.5027
-Epoch 9/20 - Train Loss: 0.5023
-Epoch 10/20 - Train Loss: 0.5020
-Epoch 11/20 - Train Loss: 0.5018
-Epoch 12/20 - Train Loss: 0.5015
-Epoch 13/20 - Train Loss: 0.5014
-Epoch 14/20 - Train Loss: 0.5012
-Epoch 15/20 - Train Loss: 0.5011
-Epoch 16/20 - Train Loss: 0.5009
-Epoch 17/20 - Train Loss: 0.5008
-Epoch 18/20 - Train Loss: 0.5007
-Epoch 19/20 - Train Loss: 0.5006
-Epoch 20/20 - Train Loss: 0.5005
-Test Loss: 0.5483
-Time to extract embeddings: 1.15 seconds
-Auto encoder Results: {
-    'knn_accuracy': {'5': 0.8258, '10': 0.7934, '20': 0.7713}, 
-    'silhouette_score': 0.019071929156780243, 
-    'mean_norm': np.float32(1.0), 
-    'std_norm': np.float32(4.2964984e-08), 
-    'mean_intra_distance': np.float32(0.95340663), 
-    'linear_probe_accuracy': 0.9197
-    
-    }
+Epoch 1/20 - Train Loss: 0.5398
+Epoch 2/20 - Train Loss: 0.5197
+Epoch 3/20 - Train Loss: 0.5179
+Epoch 4/20 - Train Loss: 0.5169
+Epoch 5/20 - Train Loss: 0.5164
+Epoch 6/20 - Train Loss: 0.5161
+Epoch 7/20 - Train Loss: 0.5156
+Epoch 8/20 - Train Loss: 0.5154
+Epoch 9/20 - Train Loss: 0.5152
+Epoch 10/20 - Train Loss: 0.5151
+Epoch 11/20 - Train Loss: 0.5149
+Epoch 12/20 - Train Loss: 0.5147
+Epoch 13/20 - Train Loss: 0.5145
+Epoch 14/20 - Train Loss: 0.5144
+Epoch 15/20 - Train Loss: 0.5142
+Epoch 16/20 - Train Loss: 0.5142
+Epoch 17/20 - Train Loss: 0.5140
+Epoch 18/20 - Train Loss: 0.5139
+Epoch 19/20 - Train Loss: 0.5137
+Epoch 20/20 - Train Loss: 0.5136
+Test Loss: 0.5599
+Time to extract embeddings: 0.66 seconds
+Auto encoder Results: {'knn_accuracy': {'5': 0.8534, '10': 0.8296, '20': 0.807}, 
+'silhouette_score': 0.028595268726348877, 'mean_norm': np.float32(1.0), 'std_norm': np.float32(3.3068492e-08), 
+'mean_intra_distance': np.float32(0.90700245), 'linear_probe_accuracy': 0.8444, 
+'intra_class_distances': [np.float32(0.94810075), np.float32(0.8329252), np.float32(0.97407824), np.float32(0.945166), np.float32(0.93226475), np.float32(0.75931674), np.float32(0.97849697), np.float32(0.8047612), np.float32(1.0116786), np.float32(0.88323593)]}
+
 
 CLIP
 
-Time to extract embeddings: 155.70 seconds
-CLIP Results: {'knn_accuracy': {'5': 0.9008, '10': 0.8852, '20': 0.8704}, 'silhouette_score': 0.10791392624378204, 'mean_norm': np.float32(1.0), 'std_norm': np.float32(6.8464956e-08), 'mean_intra_distance': np.float32(0.39231166), 'linear_probe_accuracy': 0.9745}
+Time to extract embeddings: 151.69 seconds
+CLIP Results: {'knn_accuracy': {'5': 0.8891, '10': 0.8694, '20': 0.8584}, 'silhouette_score': 0.09465204179286957, 
+'mean_norm': np.float32(1.0), 'std_norm': np.float32(7.1012124e-08), 'mean_intra_distance': np.float32(0.3799718), 
+'linear_probe_accuracy': 0.9659, 
+intra_class_distances': [np.float32(0.39213327), np.float32(0.31284896), np.float32(0.35807186), np.float32(0.39982155), np.float32(0.36159575), np.float32(0.41780353), np.float32(0.39706078), np.float32(0.39037335), np.float32(0.4299757), np.float32(0.34003335)]}
 
 MoE
 
-Epoch 1/20 - Train Loss: 0.5172, Train Acc: 0.8070
-Epoch 2/20 - Train Loss: 0.3806, Train Acc: 0.8567
-Epoch 3/20 - Train Loss: 0.3299, Train Acc: 0.8762
-Epoch 4/20 - Train Loss: 0.2984, Train Acc: 0.8874
-Epoch 5/20 - Train Loss: 0.2730, Train Acc: 0.8962
-Epoch 6/20 - Train Loss: 0.2472, Train Acc: 0.9075
-Epoch 7/20 - Train Loss: 0.2260, Train Acc: 0.9149
-Epoch 8/20 - Train Loss: 0.2037, Train Acc: 0.9235
-Epoch 9/20 - Train Loss: 0.1856, Train Acc: 0.9292
-Epoch 10/20 - Train Loss: 0.1666, Train Acc: 0.9368
-Epoch 11/20 - Train Loss: 0.1490, Train Acc: 0.9429
-Epoch 12/20 - Train Loss: 0.1334, Train Acc: 0.9504
-Epoch 13/20 - Train Loss: 0.1196, Train Acc: 0.9548
-Epoch 14/20 - Train Loss: 0.1060, Train Acc: 0.9604
-Epoch 15/20 - Train Loss: 0.0960, Train Acc: 0.9645
-Epoch 16/20 - Train Loss: 0.0490, Train Acc: 0.9816
-Epoch 17/20 - Train Loss: 0.0368, Train Acc: 0.9867
-Epoch 18/20 - Train Loss: 0.0326, Train Acc: 0.9883
-Epoch 19/20 - Train Loss: 0.0296, Train Acc: 0.9891
-Epoch 20/20 - Train Loss: 0.0270, Train Acc: 0.9907
+Training Statistics
+CE Loss: 0.5384
+Contrastive Loss: 3.3750
+Entropy Loss: -0.9472
+Epoch 1/10 - Train Loss: 0.9036, Train Acc: 0.8091
+Evaluation Expert Usage
+Expert 0: 0.0131
+Expert 1: 0.5233
+Expert 2: 0.4636
+
+
+Training Statistics
+CE Loss: 0.3822
+Contrastive Loss: 3.2604
+Entropy Loss: -0.9718
+Epoch 2/10 - Train Loss: 0.7274, Train Acc: 0.8603
+Evaluation Expert Usage
+Expert 0: 0.0389
+Expert 1: 0.4968
+Expert 2: 0.4642
+
+
+Training Statistics
+CE Loss: 0.3441
+Contrastive Loss: 3.2319
+Entropy Loss: -0.9983
+Epoch 3/10 - Train Loss: 0.6833, Train Acc: 0.8747
+Evaluation Expert Usage
+Expert 0: 0.0653
+Expert 1: 0.4192
+Expert 2: 0.5155
+
+
+Training Statistics
+CE Loss: 0.3165
+Contrastive Loss: 3.2186
+Entropy Loss: -1.0149
+Epoch 4/10 - Train Loss: 0.6519, Train Acc: 0.8848
+Evaluation Expert Usage
+Expert 0: 0.0869
+Expert 1: 0.4664
+Expert 2: 0.4467
+
+
+Training Statistics
+CE Loss: 0.2944
+Contrastive Loss: 3.2074
+Entropy Loss: -1.0264
+Epoch 5/10 - Train Loss: 0.6267, Train Acc: 0.8931
+Evaluation Expert Usage
+Expert 0: 0.0605
+Expert 1: 0.4656
+Expert 2: 0.4738
+
+
+Training Statistics
+CE Loss: 0.2755
+Contrastive Loss: 3.2024
+Entropy Loss: -1.0399
+Epch 6/10 - Train Loss: 0.6059, Train Acc: 0.8984
+Evaluation Expert Usage
+Expert 0: 0.1161
+Expert 1: 0.4419
+Expert 2: 0.4419
+
+
+Training Statistics
+CE Loss: 0.2561
+Contrastive Loss: 3.1936
+Entropy Loss: -1.0438
+Epoch 7/10 - Train Loss: 0.5843, Train Acc: 0.9068
+Evaluation Expert Usage
+Expert 0: 0.0584
+Expert 1: 0.4860
+Expert 2: 0.4556
+
+
+Training Statistics
+CE Loss: 0.2405
+Contrastive Loss: 3.1903
+Entropy Loss: -1.0440
+Epoch 8/10 - Train Loss: 0.5674, Train Acc: 0.9133
+Evaluation Expert Usage
+Expert 0: 0.0498
+Expert 1: 0.5452
+Expert 2: 0.4050
+
+
+Training Statistics
+CE Loss: 0.2199
+Contrastive Loss: 3.1879
+Entropy Loss: -1.0419
+Epoch 9/10 - Train Loss: 0.5455, Train Acc: 0.9205
+Evalution Expert Usage
+Expert 0: 0.0426
+Expert 1: 0.5334
+Expert 2: 0.4240
+
+
+Training Statistics
+CE Loss: 0.2097
+Contrastive Loss: 3.1848
+Entropy Loss: -1.0384
+Epoch 10/10 - Train Loss: 0.5346, Train Acc: 0.9253
+Evaluation Expert Usage
+Expert 0: 0.0612
+Expert 1: 0.5111
+Expert 2: 0.4277
+
 Test Loss: 0.5475, Test Acc: 0.9033
-Time to extract embeddings: 3.57 seconds
-MoE Results: {'knn_accuracy': {'5': 0.8911, '10': 0.8693, '20': 0.8504}, 'silhouette_score': 0.06319370865821838, 'mean_norm': np.float32(1.0), 'std_norm': np.float32(1.0910907e-07), 'mean_intra_distance': np.float32(0.76618624), 'linear_probe_accuracy': 1.0, 'intra_class_distances': [np.float32(0.74868995), np.float32(0.6383055), np.float32(0.773913), np.float32(0.7673506), np.float32(0.7698133), np.float32(0.823206), np.float32(0.81093127), np.float32(0.647559), np.float32(0.9113008), np.float32(0.7707933)]}
+Time to extract embeddings: 7.21 seconds
+MoE Results: {'knn_accuracy': {'5': 0.901, '10': 0.8873, '20': 0.8791}, 'silhouette_score': 0.14160548150539398, 'mean_norm': np.float32(1.0), 'std_norm': np.float32(4.367032e-08), 'mean_intra_distance': np.float32(0.27826038), 'linear_probe_accuracy': 0.9112, 'intra_class_distances': [np.float32(0.32229245), np.float32(0.20248376), np.float32(0.41652414), np.float32(0.2761952), np.float32(0.35168743), np.float32(0.16149136), np.float32(0.39272735), np.float32(0.13581795), np.float32(0.31971726), np.float32(0.2036668)]}
+
+
+
+
 
 Con
 
-Epoch 1/20, Train Loss: 0.2039
-Epoch 2/20, Train Loss: 0.0563
-Epoch 3/20, Train Loss: 0.0354
-Epoch 4/20, Train Loss: 0.0282
-Epoch 5/20, Train Loss: 0.0239
-Epoch 6/20, Train Loss: 0.0196
-Epoch 7/20, Train Loss: 0.0155
-Epoch 8/20, Train Loss: 0.0127
-Epoch 9/20, Train Loss: 0.0107
-Epoch 10/20, Train Loss: 0.0100
-Epoch 11/20, Train Loss: 0.0095
-Epoch 12/20, Train Loss: 0.0095
-Epoch 13/20, Train Loss: 0.0100
-Epoch 14/20, Train Loss: 0.0116
-Epoch 15/20, Train Loss: 0.0123
-Epoch 16/20, Train Loss: 0.0170
-Epoch 17/20, Train Loss: 0.0178
-Epoch 18/20, Train Loss: 0.0196
-Epoch 19/20, Train Loss: 0.0201
-Epoch 20/20, Train Loss: 0.0187
-Test Loss: 0.0067
-Time to extract embeddings: 1.77 seconds
-Contrastive Results: {'knn_accuracy': {'5': 0.8261, '10': 0.8005, '20': 0.782}, 'silhouette_score': 0.022372454404830933, 'mean_norm': np.float32(1.0), 'std_norm': np.float32(3.4780726e-08), 'mean_intra_distance': np.float32(0.9763012), 'linear_probe_accuracy': 0.8059}
+Epoch 1/10, Train Loss: 0.7145, Acc: 59.14
+Epoch 2/10, Train Loss: 0.3360, Acc: 67.26
+Epoch 3/10, Train Loss: 0.2667, Acc: 69.10
+Epoch 4/10, Train Loss: 0.2319, Acc: 70.91
+Epoch 5/10, Train Loss: 0.2115, Acc: 71.85
+Epoch 6/10, Train Loss: 0.1904, Acc: 72.90
+Epoch 7/10, Train Loss: 0.1765, Acc: 73.88
+Epoch 8/10, Train Loss: 0.1696, Acc: 74.28
+Epoch 9/10, Train Loss: 0.1568, Acc: 75.25
+Epoch 10/10, Train Loss: 0.1505, Acc: 75.73
+Test Loss: 0.5699, Acc: 0.7890
+Time to extract embeddings: 3.33 seconds
+Contrastive Results: {'knn_accuracy': {'5': 0.7851, '10': 0.7453, '20': 0.7201}, 
+'silhouette_score': -0.06603175401687622, 'mean_norm': np.float32(1.0), 'std_norm': np.float32(3.291774e-08), 
+'mean_intra_distance': np.float32(0.016154682), 'linear_probe_accuracy': 0.7593, 
+'intra_class_distances': [np.float32(0.019978115), np.float32(0.01017747), np.float32(0.021326985), np.float32(0.016125418), np.float32(0.01777404), np.float32(0.010853046), np.float32(0.021945614), np.float32(0.008735168), np.float32(0.02098062), np.float32(0.013650337)]}

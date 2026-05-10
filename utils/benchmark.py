@@ -42,9 +42,25 @@ class ExperimentBenchmarker:
 
                 y = y.to(self.device)
 
+                print("Before reshape:", x.shape)
+
+                if x.dim() == 2:
+                    x = x.unsqueeze(0).unsqueeze(0)
+
+                elif x.dim() == 3:
+                    x = x.unsqueeze(1)
+
+                elif x.dim() == 1:
+                    x = x.view(1, 1, 28, 28)
+
+                x = F.interpolate(x, size=(32, 32), mode='bilinear', align_corners=False)
+                
+
                 output = model(x_preprocessed) # Extract embeddings from the model
 
-                if isinstance(output, tuple):
+                if isinstance(output, dict):
+                    z = output["embedding"]
+                elif isinstance(output, tuple):
                     z = output[0]
                 else:
                     z = output
@@ -61,7 +77,6 @@ class ExperimentBenchmarker:
 
         embeddings = F.normalize(embeddings, dim=1)
 
-        # Reduce number of classes for visualization
         if num_classes < len(labels.unique()):
             selected_classes = torch.randperm(len(labels.unique()))[:num_classes]
             mask = torch.isin(labels, selected_classes)

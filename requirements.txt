@@ -10,3 +10,7 @@ keras
 tensorflow
 sentence-transformers
 seaborn
+open_clip_torch
+ftfy
+regex
+tqdm
