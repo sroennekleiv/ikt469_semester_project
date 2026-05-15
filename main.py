@@ -29,6 +29,7 @@ EPOCHS = 10
 if __name__ == '__main__':
     dataset = FashionMNISTDataset(batch_size=64, size=32, split_fraction=0.5)
     train_df, test_df = dataset.get_dataloaders(is_contrastive=False) # Enable and disable preprocessing on the dataset
+
     class_names = dataset.get_class_names()
 
     print(f"Train: {len(train_df.dataset)}, Test: {len(test_df.dataset)}")
@@ -38,8 +39,8 @@ if __name__ == '__main__':
     benchmarker = ExperimentBenchmarker(device=device)
     visualizer = VisualizeEmbeddings()
 
-    '''# Autoencoder
-    autoencoder_model = AutoencoderModel(in_channels=1, embedding_dim=128).to(device)
+    # Autoencoder
+    '''autoencoder_model = AutoencoderModel(in_channels=1, embedding_dim=64).to(device)
     autoencoder_trainer = AutoEncoderTrainerAndEvaluator(autoencoder_model)
     test_loss = autoencoder_trainer.run_experiment(train_df, test_df, epochs=EPOCHS)
 
@@ -57,6 +58,8 @@ if __name__ == '__main__':
     
     # Pretrained CLIP model with ViT-B/32 architecture
     '''clip_model = PretrainedCLIPModel(device=device)
+    clip_acc = benchmarker.evaluate_model(clip_model, test_df)
+    print(f'CLIP Accuracy: {clip_acc:.4f}')
     start_time = time.time()
     clip_embeddings, clip_labels, clip_images = benchmarker.extract_embeddings(clip_model, test_df, num_classes=NUM_CLASSES)
     end_time = time.time()
@@ -77,7 +80,7 @@ if __name__ == '__main__':
     start_time = time.time()
     moe_embeddings, moe_labels, moe_images = benchmarker.extract_embeddings(mixture_of_experts, test_df, num_classes=NUM_CLASSES)
     end_time = time.time()
-    visualizer.visualize(model_name='mixtureofexperts', embeddings=moe_embeddings, labels=moe_labels)
+    visualizer.visualize(model_name='mixtureofexperts_c', embeddings=moe_embeddings, labels=moe_labels)
     elapsed_time = end_time - start_time
     print(f"Time to extract embeddings: {elapsed_time:.2f} seconds")
 
@@ -86,8 +89,8 @@ if __name__ == '__main__':
 
     
     '''# Contrastive
-    contrastive_model = ContrastiveModel(in_channels=1, embedding_dim=128, projection_dim=64).to(device)
-    contrastive_trainer = ContrastiveTrainerAndEvaluator(contrastive_model, temperature=0.07, device=device)
+    contrastive_model = ContrastiveModel(in_channels=1, embedding_dim=64, projection_dim=32).to(device)
+    contrastive_trainer = ContrastiveTrainerAndEvaluator(contrastive_model, temperature=0.2, device=device)
     test_loss = contrastive_trainer.run_experiment(train_df, test_df, epochs=EPOCHS)
     
     start_time = time.time()

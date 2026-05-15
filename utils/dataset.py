@@ -3,7 +3,7 @@ import numpy as np
 
 from utils.data_preprocess import PreProcessingClass
 from keras.datasets import fashion_mnist
-from torch.utils.data import Dataset, DataLoader, TensorDataset
+from torch.utils.data import Dataset, DataLoader, TensorDataset, Subset
 
     
 class FashionMNISTDataset:
@@ -38,8 +38,12 @@ class FashionMNISTDataset:
         train_dataset = TensorDataset(train_X, train_y)
         test_dataset = TensorDataset(test_X, test_y)
 
-        self.train_loader = DataLoader(train_dataset, batch_size=self.batch_size, shuffle=True)
-        self.test_loader = DataLoader(test_dataset, batch_size=self.batch_size, shuffle=False)
+        # Select fixed-size subsets
+        train_subset = Subset(train_dataset, list(range(20000)))
+        test_subset  = Subset(test_dataset,  list(range(10000)))
+
+        self.train_loader = DataLoader(train_subset, batch_size=self.batch_size, shuffle=True)
+        self.test_loader = DataLoader(test_subset, batch_size=self.batch_size, shuffle=False)
 
         return self.train_loader, self.test_loader
     

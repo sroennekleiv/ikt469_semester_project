@@ -1,0 +1,573 @@
+default
+
+Training Statistics
+CE Loss: 0.6859
+Load Balancing Loss: 0.0172
+Entropy Loss: -1.0384
+
+Epoch 1/10 - Train Loss: 0.6360, Train Acc: 0.7572
+Evaluation Expert Usage
+Expert 0: 0.2625
+Expert 1: 0.3016
+Expert 2: 0.4359
+Test Loss: 0.4553, Test Acc: 0.8376
+
+Training Statistics
+CE Loss: 0.4515
+Load Balancing Loss: 0.0083
+Entropy Loss: -1.0708
+
+Epoch 2/10 - Train Loss: 0.3988, Train Acc: 0.8306
+Evaluation Expert Usage
+Expert 0: 0.2832
+Expert 1: 0.3238
+Expert 2: 0.3930
+Test Loss: 0.3681, Test Acc: 0.8679
+
+Training Statistics
+CE Loss: 0.3912
+Load Balancing Loss: 0.0068
+Entropy Loss: -1.0761
+
+Epoch 3/10 - Train Loss: 0.3382, Train Acc: 0.8557
+Evaluation Expert Usage
+Expert 0: 0.2715
+Expert 1: 0.3265
+Expert 2: 0.4020
+Test Loss: 0.4171, Test Acc: 0.8511
+
+Training Statistics
+CE Loss: 0.3540
+Load Balancing Loss: 0.0053
+Entropy Loss: -1.0815
+
+Epoch 4/10 - Train Loss: 0.3008, Train Acc: 0.8697
+Evaluation Expert Usage
+Expert 0: 0.2853
+Expert 1: 0.3250
+Expert 2: 0.3897
+Test Loss: 0.3440, Test Acc: 0.8797
+
+Training Statistics
+CE Loss: 0.3218
+Load Balancing Loss: 0.0039
+Entropy Loss: -1.0859
+
+Epoch 5/10 - Train Loss: 0.2675, Train Acc: 0.8805
+Evaluation Expert Usage
+Expert 0: 0.2819
+Expert 1: 0.3194
+Expert 2: 0.3988
+Test Loss: 0.3492, Test Acc: 0.8766
+
+Training Statistics
+CE Loss: 0.2940
+Load Balancing Loss: 0.0040
+Entropy Loss: -1.0857
+
+Epoch 6/10 - Train Loss: 0.2401, Train Acc: 0.8929
+Evaluation Expert Usage
+Expert 0: 0.2865
+Expert 1: 0.3232
+Expert 2: 0.3903
+Test Loss: 0.3550, Test Acc: 0.8761
+
+Training Statistics
+CE Loss: 0.2591
+Load Balancing Loss: 0.0042
+Entropy Loss: -1.0851
+
+Epoch 7/10 - Train Loss: 0.2049, Train Acc: 0.9063
+Evaluation Expert Usage
+Expert 0: 0.2867
+Expert 1: 0.3254
+Expert 2: 0.3879
+Test Loss: 0.3292, Test Acc: 0.8881
+
+Training Statistics
+CE Loss: 0.2323
+Load Balancing Loss: 0.0040
+Entropy Loss: -1.0860
+
+Epoch 8/10 - Train Loss: 0.1783, Train Acc: 0.9151
+Evaluation Expert Usage
+Expert 0: 0.2857
+Expert 1: 0.3169
+Expert 2: 0.3974
+Test Loss: 0.4059, Test Acc: 0.8725
+
+Training Statistics
+CE Loss: 0.2034
+Load Balancing Loss: 0.0039
+Entropy Loss: -1.0862
+
+Epoch 9/10 - Train Loss: 0.1495, Train Acc: 0.9271
+Evaluation Expert Usage
+Expert 0: 0.2802
+Expert 1: 0.3205
+Expert 2: 0.3993
+Test Loss: 0.3712, Test Acc: 0.8791
+
+Training Statistics
+CE Loss: 0.1843
+Load Balancing Loss: 0.0040
+Entropy Loss: -1.0857
+
+Epoch 10/10 - Train Loss: 0.1302, Train Acc: 0.9344
+Evaluation Expert Usage
+Expert 0: 0.2899
+Expert 1: 0.3194
+Expert 2: 0.3907
+Test Loss: 0.3629, Test Acc: 0.8863
+Evaluation Expert Usage
+Expert 0: 0.2867
+Expert 1: 0.3254
+Expert 2: 0.3879
+Best Test Loss: 0.3292, Best Test Acc: 0.8881
+
+MoE Results: {'knn_accuracy': {'5': 0.9175, '10': 0.9078, '20': 0.9023}, 'silhouette_score': 0.40769103169441223, 'mean_norm': np.float32(1.0), 'std_norm': np.float32(4.143273e-08), 'mean_intra_distance': np.float32(0.4989315), 'linear_probe_accuracy': 0.9208, 'intra_class_distances': [np.float32(0.6390957), np.float32(0.33520374), np.float32(0.6200602), np.float32(0.5651605), np.float32(0.58191717), np.float32(0.3722039), np.float32(0.7265306), np.float32(0.34177783), np.float32(0.44760013), np.float32(0.35976508)]}
+
+
+
+
+with s
+
+Training Statistics
+CE Loss: 0.6865
+Load Balancing Loss: 0.0305
+Entropy Loss: -0.9948
+Sharpness Loss: -0.5321
+
+Epoch 1/10 - Train Loss: 0.6138, Train Acc: 0.7590
+Evaluation Expert Usage
+Expert 0: 0.2240
+Expert 1: 0.2982
+Expert 2: 0.4779
+Test Loss: 0.4660, Test Acc: 0.8350
+
+Training Statistics
+CE Loss: 0.4588
+Load Balancing Loss: 0.0224
+Entropy Loss: -1.0269
+Sharpness Loss: -0.5045
+
+Epoch 2/10 - Train Loss: 0.3846, Train Acc: 0.8308
+Evaluation Expert Usage
+Expert 0: 0.2285
+Expert 1: 0.2857
+Expert 2: 0.4858
+Test Loss: 0.3763, Test Acc: 0.8610
+
+Training Statistics
+CE Loss: 0.3984
+Load Balancing Loss: 0.0199
+Entropy Loss: -1.0347
+Sharpness Loss: -0.4984
+
+Epoch 3/10 - Train Loss: 0.3238, Train Acc: 0.8525
+Evaluation Expert Usage
+Expert 0: 0.2347
+Expert 1: 0.2932
+Expert 2: 0.4722
+Test Loss: 0.3381, Test Acc: 0.8769
+
+Training Statistics
+CE Loss: 0.3605
+Load Balancing Loss: 0.0197
+Entropy Loss: -1.0349
+Sharpness Loss: -0.4972
+
+Epoch 4/10 - Train Loss: 0.2859, Train Acc: 0.8670
+Evaluation Expert Usage
+Expert 0: 0.2392
+Expert 1: 0.3043
+Expert 2: 0.4565
+Test Loss: 0.3276, Test Acc: 0.8793
+
+Training Statistics
+CE Loss: 0.3203
+Load Balancing Loss: 0.0187
+Entropy Loss: -1.0393
+Sharpness Loss: -0.4919
+
+Epoch 5/10 - Train Loss: 0.2455, Train Acc: 0.8827
+Evaluation Expert Usage
+Expert 0: 0.2271
+Expert 1: 0.2893
+Expert 2: 0.4837
+Test Loss: 0.3265, Test Acc: 0.8812
+
+Training Statistics
+CE Loss: 0.2863
+Load Balancing Loss: 0.0196
+Entropy Loss: -1.0371
+Sharpness Loss: -0.4975
+
+Epoch 6/10 - Train Loss: 0.2115, Train Acc: 0.8962
+Evaluation Expert Usage
+Expert 0: 0.2416
+Expert 1: 0.2774
+Expert 2: 0.4809
+Test Loss: 0.3539, Test Acc: 0.8744
+
+Training Statistics
+CE Loss: 0.2605
+Load Balancing Loss: 0.0207
+Entropy Loss: -1.0331
+Sharpness Loss: -0.5046
+
+Epoch 7/10 - Train Loss: 0.1855, Train Acc: 0.9054
+Evaluation Expert Usage
+Expert 0: 0.2513
+Expert 1: 0.2778
+Expert 2: 0.4709
+Test Loss: 0.3550, Test Acc: 0.8796
+
+Training Statistics
+CE Loss: 0.2344
+Load Balancing Loss: 0.0194
+Entropy Loss: -1.0370
+Sharpness Loss: -0.4994
+
+Epoch 8/10 - Train Loss: 0.1595, Train Acc: 0.9153
+Evaluation Expert Usage
+Expert 0: 0.2286
+Expert 1: 0.2544
+Expert 2: 0.5170
+Test Loss: 0.3851, Test Acc: 0.8837
+
+Training Statistics
+CE Loss: 0.2100
+Load Balancing Loss: 0.0195
+Entropy Loss: -1.0370
+Sharpness Loss: -0.4992
+
+Epoch 9/10 - Train Loss: 0.1351, Train Acc: 0.9218
+Evaluation Expert Usage
+Expert 0: 0.2415
+Expert 1: 0.2800
+Expert 2: 0.4785
+Test Loss: 0.3449, Test Acc: 0.8830
+
+Training Statistics
+CE Loss: 0.1819
+Load Balancing Loss: 0.0214
+Entropy Loss: -1.0303
+Sharpness Loss: -0.5082
+
+Epoch 10/10 - Train Loss: 0.1072, Train Acc: 0.9342
+Evaluation Expert Usage
+Expert 0: 0.2386
+Expert 1: 0.2714
+Expert 2: 0.4900
+Test Loss: 0.4108, Test Acc: 0.8812
+Evaluation Expert Usage
+Expert 0: 0.2286
+Expert 1: 0.2544
+Expert 2: 0.5170
+Best Test Loss: 0.3851, Best Test Acc: 0.8837
+
+MoE Results: {'knn_accuracy': {'5': 0.9134, '10': 0.9027, '20': 0.8985}, 'silhouette_score': 0.4327966868877411, 'mean_norm': np.float32(1.0), 'std_norm': np.float32(4.1462734e-08), 'mean_intra_distance': np.float32(0.50125754), 'linear_probe_accuracy': 0.9166, 'intra_class_distances': [np.float32(0.58071095), np.float32(0.27636793), np.float32(0.60261035), np.float32(0.5891164), np.float32(0.5430743), np.float32(0.44870558), np.float32(0.8069737), np.float32(0.26525494), np.float32(0.504554), np.float32(0.39520708)]}
+
+
+
+
+
+
+
+
+
+
+
+with o
+
+Training Statistics
+CE Loss: 0.6875
+Load Balancing Loss: 0.0180
+Entropy Loss: -1.0348
+Orthogonality Loss: 0.3736
+
+Epoch 1/10 - Train Loss: 0.6749, Train Acc: 0.7552
+Evaluation Expert Usage
+Expert 0: 0.2531
+Expert 1: 0.3180
+Expert 2: 0.4288
+Test Loss: 0.5038, Test Acc: 0.8189
+
+Training Statistics
+CE Loss: 0.4544
+Load Balancing Loss: 0.0106
+Entropy Loss: -1.0626
+Orthogonality Loss: 0.2741
+
+Epoch 2/10 - Train Loss: 0.4300, Train Acc: 0.8315
+Evaluation Expert Usage
+Expert 0: 0.2589
+Expert 1: 0.3185
+Expert 2: 0.4226
+Test Loss: 0.4613, Test Acc: 0.8369
+
+Training Statistics
+CE Loss: 0.3994
+Load Balancing Loss: 0.0081
+Entropy Loss: -1.0723
+Orthogonality Loss: 0.2407
+
+Epoch 3/10 - Train Loss: 0.3706, Train Acc: 0.8521
+Evaluation Expert Usage
+Expert 0: 0.2524
+Expert 1: 0.3233
+Expert 2: 0.4244
+Test Loss: 0.4236, Test Acc: 0.8494
+
+Training Statistics
+CE Loss: 0.3525
+Load Balancing Loss: 0.0071
+Entropy Loss: -1.0758
+Orthogonality Loss: 0.2176
+
+Epoch 4/10 - Train Loss: 0.3213, Train Acc: 0.8711
+Evaluation Expert Usage
+Expert 0: 0.2675
+Expert 1: 0.3296
+Expert 2: 0.4029
+Test Loss: 0.3487, Test Acc: 0.8801
+
+Training Statistics
+CE Loss: 0.3258
+Load Balancing Loss: 0.0057
+Entropy Loss: -1.0804
+Orthogonality Loss: 0.2045
+
+Epoch 5/10 - Train Loss: 0.2929, Train Acc: 0.8802
+Evaluation Expert Usage
+Expert 0: 0.2632
+Expert 1: 0.3229
+Expert 2: 0.4140
+Test Loss: 0.3693, Test Acc: 0.8732
+
+Training Statistics
+CE Loss: 0.2922
+Load Balancing Loss: 0.0057
+Entropy Loss: -1.0799
+Orthogonality Loss: 0.1896
+
+Epoch 6/10 - Train Loss: 0.2581, Train Acc: 0.8932
+Evaluation Expert Usage
+Expert 0: 0.2677
+Expert 1: 0.3292
+Expert 2: 0.4031
+Test Loss: 0.3696, Test Acc: 0.8693
+
+Training Statistics
+CE Loss: 0.2666
+Load Balancing Loss: 0.0054
+Entropy Loss: -1.0812
+Orthogonality Loss: 0.1740
+
+Epoch 7/10 - Train Loss: 0.2303, Train Acc: 0.9055
+Evaluation Expert Usage
+Expert 0: 0.2520
+Expert 1: 0.3154
+Expert 2: 0.4326
+Test Loss: 0.3435, Test Acc: 0.8843
+
+Training Statistics
+CE Loss: 0.2398
+Load Balancing Loss: 0.0050
+Entropy Loss: -1.0828
+Orthogonality Loss: 0.1620
+
+Epoch 8/10 - Train Loss: 0.2022, Train Acc: 0.9135
+Evaluation Expert Usage
+Expert 0: 0.2466
+Expert 1: 0.3222
+Expert 2: 0.4311
+Test Loss: 0.3402, Test Acc: 0.8790
+
+Training Statistics
+CE Loss: 0.2136
+Load Balancing Loss: 0.0054
+Entropy Loss: -1.0814
+Orthogonality Loss: 0.1492
+
+Epoch 9/10 - Train Loss: 0.1750, Train Acc: 0.9219
+Evaluation Expert Usage
+Expert 0: 0.1935
+Expert 1: 0.2128
+Expert 2: 0.5937
+Test Loss: 0.4163, Test Acc: 0.8831
+
+Training Statistics
+CE Loss: 0.1924
+Load Balancing Loss: 0.0051
+Entropy Loss: -1.0820
+Orthogonality Loss: 0.1348
+
+Epoch 10/10 - Train Loss: 0.1520, Train Acc: 0.9303
+Evaluation Expert Usage
+Expert 0: 0.2754
+Expert 1: 0.3220
+Expert 2: 0.4026
+Test Loss: 0.3784, Test Acc: 0.8857
+Evaluation Expert Usage
+Expert 0: 0.2754
+Expert 1: 0.3220
+Expert 2: 0.4026
+Best Test Loss: 0.3784, Best Test Acc: 0.8857
+
+MoE Results: {'knn_accuracy': {'5': 0.9157, '10': 0.9041, '20': 0.899}, 'silhouette_score': 0.389730840921402, 'mean_norm': np.float32(1.0), 'std_norm': np.float32(4.186351e-08), 'mean_intra_distance': np.float32(0.51648444), 'linear_probe_accuracy': 0.9188, 'intra_class_distances': [np.float32(0.60539776), np.float32(0.29018044), np.float32(0.57583296), np.float32(0.529237), np.float32(0.6495822), np.float32(0.42414615), np.float32(0.8279867), np.float32(0.33982626), np.float32(0.5777566), np.float32(0.34489864)]}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+with c
+
+Training Statistics
+CE Loss: 0.6928
+Load Balancing Loss: 0.0262
+Entropy Loss: -1.0189
+Consistency Loss: 0.6657
+
+Epoch 1/10 - Train Loss: 0.9777, Train Acc: 0.7569
+Evaluation Expert Usage
+Expert 0: 0.1962
+Expert 1: 0.3012
+Expert 2: 0.5026
+Test Loss: 0.4659, Test Acc: 0.8342
+
+Training Statistics
+CE Loss: 0.4592
+Load Balancing Loss: 0.0188
+Entropy Loss: -1.0407
+Consistency Loss: 0.5508
+
+Epoch 2/10 - Train Loss: 0.6845, Train Acc: 0.8310
+Evaluation Expert Usage
+Expert 0: 0.2231
+Expert 1: 0.3190
+Expert 2: 0.4579
+Test Loss: 0.4162, Test Acc: 0.8518
+
+Training Statistics
+CE Loss: 0.4028
+Load Balancing Loss: 0.0138
+Entropy Loss: -1.0565
+Consistency Loss: 0.4731
+
+Epoch 3/10 - Train Loss: 0.5878, Train Acc: 0.8547
+Evaluation Expert Usage
+Expert 0: 0.2527
+Expert 1: 0.3187
+Expert 2: 0.4287
+Test Loss: 0.3854, Test Acc: 0.8606
+
+Training Statistics
+CE Loss: 0.3675
+Load Balancing Loss: 0.0120
+Entropy Loss: -1.0612
+Consistency Loss: 0.4088
+
+Epoch 4/10 - Train Loss: 0.5202, Train Acc: 0.8670
+Evaluation Expert Usage
+Expert 0: 0.2330
+Expert 1: 0.3366
+Expert 2: 0.4304
+Test Loss: 0.3601, Test Acc: 0.8727
+
+Training Statistics
+CE Loss: 0.3345
+Load Balancing Loss: 0.0092
+Entropy Loss: -1.0695
+Consistency Loss: 0.3759
+
+Epoch 5/10 - Train Loss: 0.4699, Train Acc: 0.8790
+Evaluation Expert Usage
+Expert 0: 0.2419
+Expert 1: 0.3411
+Expert 2: 0.4170
+Test Loss: 0.3340, Test Acc: 0.8820
+
+Training Statistics
+CE Loss: 0.3150
+Load Balancing Loss: 0.0088
+Entropy Loss: -1.0710
+Consistency Loss: 0.3525
+
+Epoch 6/10 - Train Loss: 0.4384, Train Acc: 0.8867
+Evaluation Expert Usage
+Expert 0: 0.2497
+Expert 1: 0.3301
+Expert 2: 0.4202
+Test Loss: 0.3459, Test Acc: 0.8808
+
+Training Statistics
+CE Loss: 0.2804
+Load Balancing Loss: 0.0072
+Entropy Loss: -1.0757
+Consistency Loss: 0.3343
+
+Epoch 7/10 - Train Loss: 0.3943, Train Acc: 0.8986
+Evaluation Expert Usage
+Expert 0: 0.2545
+Expert 1: 0.3429
+Expert 2: 0.4026
+Test Loss: 0.3257, Test Acc: 0.8929
+
+Training Statistics
+CE Loss: 0.2538
+Load Balancing Loss: 0.0075
+Entropy Loss: -1.0754
+Consistency Loss: 0.3233
+
+Epoch 8/10 - Train Loss: 0.3618, Train Acc: 0.9091
+Evaluation Expert Usage
+Expert 0: 0.2383
+Expert 1: 0.3321
+Expert 2: 0.4296
+Test Loss: 0.3710, Test Acc: 0.8743
+
+Training Statistics
+CE Loss: 0.2250
+Load Balancing Loss: 0.0081
+Entropy Loss: -1.0731
+Consistency Loss: 0.3145
+
+Epoch 9/10 - Train Loss: 0.3296, Train Acc: 0.9200
+Evaluation Expert Usage
+Expert 0: 0.2432
+Expert 1: 0.3232
+Expert 2: 0.4336
+Test Loss: 0.3276, Test Acc: 0.8945
+
+Training Statistics
+CE Loss: 0.1960
+Load Balancing Loss: 0.0069
+Entropy Loss: -1.0769
+Consistency Loss: 0.3046
+
+Epoch 10/10 - Train Loss: 0.2946, Train Acc: 0.9325
+Evaluation Expert Usage
+Expert 0: 0.2573
+Expert 1: 0.3396
+Expert 2: 0.4031
+Test Loss: 0.3632, Test Acc: 0.8815
+Evaluation Expert Usage
+Expert 0: 0.2432
+Expert 1: 0.3232
+Expert 2: 0.4336
+Best Test Loss: 0.3276, Best Test Acc: 0.8945
+
+MoE Results: {'knn_accuracy': {'5': 0.9219, '10': 0.9129, '20': 0.905}, 'silhouette_score': 0.38010138273239136, 'mean_norm': np.float32(1.0), 'std_norm': np.float32(3.989951e-08), 'mean_intra_distance': np.float32(0.35226777), 'linear_probe_accuracy': 0.9225, 'intra_class_distances': [np.float32(0.38869232), np.float32(0.22566532), np.float32(0.39853516), np.float32(0.37849507), np.float32(0.38435704), np.float32(0.25904676), np.float32(0.51860934), np.float32(0.21567453), np.float32(0.37214622), np.float32(0.3814559)]}

@@ -171,6 +171,39 @@ class ExperimentBenchmarker:
             'linear_probe_accuracy': linear_acc,
             'intra_class_distances': intra_class_distances
         }
+    
+    def evaluate_test_accuracy_CLIP(self, model, data_loader):
+        model.eval()
+
+        total_correct = 0
+        total_samples = 0
+
+        with torch.no_grad():
+            for x, y in data_loader:
+                x = x.float().to(self.device)
+                y = y.long().to(self.device)
+
+                if x.dim() == 2:
+                    x = x.unsqueeze(0).unsqueeze(0)
+
+                elif x.dim() == 3:
+                    x = x.unsqueeze(1)
+
+                elif x.dim() == 1:
+                    x = x.view(1, 1, 28, 28)
+
+                x = F.interpolate(x, size=(32, 32), mode='bilinear', align_corners=False)
+
+                outputs = model(x)
+                logits = outputs["logits"]
+
+                predictions = logits.argmax(dim=1)
+
+                total_correct += predictions.eq(y).sum().item()
+                total_samples += x.size(0)
+
+        acc = total_correct / total_samples
+        return acc
 
 class VisualizeEmbeddings:
     def __init__(self):
