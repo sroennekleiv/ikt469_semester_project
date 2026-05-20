@@ -22,9 +22,10 @@ from models.contrastive import ContrastiveModel
 from models.pretrained import PretrainedCLIPModel
 from models.autoencoder import AutoencoderModel
 
+from models.mixtureofexperts.expert_specialization.expert_semantic_analysis import plot_expert_semantics
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-EPOCHS = 10
+EPOCHS = 5
 
 if __name__ == '__main__':
     dataset = FashionMNISTDataset(batch_size=64, size=32, split_fraction=0.5)
@@ -77,17 +78,18 @@ if __name__ == '__main__':
     expert_trainer = ExpertTrainerAndEvaluator(mixture_of_experts, device)
     test_loss, test_acc = expert_trainer.run_experiment(train_df, test_df, epochs=EPOCHS)
     
-    start_time = time.time()
+    #start_time = time.time()
     moe_embeddings, moe_labels, moe_images = benchmarker.extract_embeddings(mixture_of_experts, test_df, num_classes=NUM_CLASSES)
-    end_time = time.time()
-    visualizer.visualize(model_name='mixtureofexperts_c', embeddings=moe_embeddings, labels=moe_labels)
-    elapsed_time = end_time - start_time
-    print(f"Time to extract embeddings: {elapsed_time:.2f} seconds")
+    #end_time = time.time()
+    #visualizer.visualize(model_name='mixtureofexperts', embeddings=moe_embeddings, labels=moe_labels)
+    #elapsed_time = end_time - start_time
+    #print(f"Time to extract embeddings: {elapsed_time:.2f} seconds")
 
     moe_results = benchmarker.run_experiment_functions(embeddings=moe_embeddings, labels=moe_labels)
     print(f'MoE Results: {moe_results}')
 
-    
+    plot_expert_semantics(mixture_of_experts.gating_network.routing_weights.cpu().numpy(), moe_labels, class_names)
+
     '''# Contrastive
     contrastive_model = ContrastiveModel(in_channels=1, embedding_dim=64, projection_dim=32).to(device)
     contrastive_trainer = ContrastiveTrainerAndEvaluator(contrastive_model, temperature=0.2, device=device)

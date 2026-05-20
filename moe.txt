@@ -4,7 +4,6 @@ Training Statistics
 CE Loss: 0.6859
 Load Balancing Loss: 0.0172
 Entropy Loss: -1.0384
-
 Epoch 1/10 - Train Loss: 0.6360, Train Acc: 0.7572
 Evaluation Expert Usage
 Expert 0: 0.2625
@@ -16,7 +15,6 @@ Training Statistics
 CE Loss: 0.4515
 Load Balancing Loss: 0.0083
 Entropy Loss: -1.0708
-
 Epoch 2/10 - Train Loss: 0.3988, Train Acc: 0.8306
 Evaluation Expert Usage
 Expert 0: 0.2832
@@ -28,7 +26,6 @@ Training Statistics
 CE Loss: 0.3912
 Load Balancing Loss: 0.0068
 Entropy Loss: -1.0761
-
 Epoch 3/10 - Train Loss: 0.3382, Train Acc: 0.8557
 Evaluation Expert Usage
 Expert 0: 0.2715
@@ -40,7 +37,6 @@ Training Statistics
 CE Loss: 0.3540
 Load Balancing Loss: 0.0053
 Entropy Loss: -1.0815
-
 Epoch 4/10 - Train Loss: 0.3008, Train Acc: 0.8697
 Evaluation Expert Usage
 Expert 0: 0.2853
@@ -52,7 +48,6 @@ Training Statistics
 CE Loss: 0.3218
 Load Balancing Loss: 0.0039
 Entropy Loss: -1.0859
-
 Epoch 5/10 - Train Loss: 0.2675, Train Acc: 0.8805
 Evaluation Expert Usage
 Expert 0: 0.2819
@@ -64,7 +59,6 @@ Training Statistics
 CE Loss: 0.2940
 Load Balancing Loss: 0.0040
 Entropy Loss: -1.0857
-
 Epoch 6/10 - Train Loss: 0.2401, Train Acc: 0.8929
 Evaluation Expert Usage
 Expert 0: 0.2865
@@ -76,7 +70,6 @@ Training Statistics
 CE Loss: 0.2591
 Load Balancing Loss: 0.0042
 Entropy Loss: -1.0851
-
 Epoch 7/10 - Train Loss: 0.2049, Train Acc: 0.9063
 Evaluation Expert Usage
 Expert 0: 0.2867
@@ -88,7 +81,6 @@ Training Statistics
 CE Loss: 0.2323
 Load Balancing Loss: 0.0040
 Entropy Loss: -1.0860
-
 Epoch 8/10 - Train Loss: 0.1783, Train Acc: 0.9151
 Evaluation Expert Usage
 Expert 0: 0.2857
@@ -100,7 +92,6 @@ Training Statistics
 CE Loss: 0.2034
 Load Balancing Loss: 0.0039
 Entropy Loss: -1.0862
-
 Epoch 9/10 - Train Loss: 0.1495, Train Acc: 0.9271
 Evaluation Expert Usage
 Expert 0: 0.2802
@@ -112,7 +103,6 @@ Training Statistics
 CE Loss: 0.1843
 Load Balancing Loss: 0.0040
 Entropy Loss: -1.0857
-
 Epoch 10/10 - Train Loss: 0.1302, Train Acc: 0.9344
 Evaluation Expert Usage
 Expert 0: 0.2899
@@ -261,6 +251,8 @@ Expert 0: 0.2386
 Expert 1: 0.2714
 Expert 2: 0.4900
 Test Loss: 0.4108, Test Acc: 0.8812
+
+
 Evaluation Expert Usage
 Expert 0: 0.2286
 Expert 1: 0.2544

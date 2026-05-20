@@ -85,7 +85,7 @@ class ExpertTrainerAndEvaluator:
                 ce_loss
                 #+ self.orthogonality_weight * orth_loss
                 #+ self.sharpness_weight * sharpness_loss
-                + self.consistency_weight * consistency_loss
+                #+ self.consistency_weight * consistency_loss
                 + self.entropy_weight * entropy_loss
                 + self.load_balance_weight * balance_loss
             )
@@ -98,7 +98,7 @@ class ExpertTrainerAndEvaluator:
             
             #total_orth_loss += orth_loss.item()
             #total_sharpness_loss += sharpness_loss.item()
-            total_consistency_loss += consistency_loss.item()
+            #total_consistency_loss += consistency_loss.item()
 
             total_entropy_loss += entropy_loss.item()
             total_load_balance_loss += balance_loss.item()
@@ -124,7 +124,7 @@ class ExpertTrainerAndEvaluator:
         print(f"Entropy Loss: {total_entropy_loss / len(train_loader):.4f}")
         #print(f"Orthogonality Loss: {total_orth_loss / len(train_loader):.4f}")
         #print(f"Sharpness Loss: {total_sharpness_loss / len(train_loader):.4f}")
-        print(f"Consistency Loss: {total_consistency_loss / len(train_loader):.4f}")
+        #print(f"Consistency Loss: {total_consistency_loss / len(train_loader):.4f}")
 
         return average_loss, accuracy
     
