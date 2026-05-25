@@ -83,7 +83,7 @@ class MixtureOfExperts(nn.Module):
             nn.Linear(128, num_classes)
         )
 
-        # Projection head for contrastive learning, allowing the model to learn more discriminative embeddings for improved performance on downstream tasks
+        # Projection head for the model to learn more discriminative embeddings for improved performance on downstream tasks
         self.projection_head = nn.Sequential(
             nn.Linear(embedding_dim, 128),
             nn.ReLU(inplace=True),
