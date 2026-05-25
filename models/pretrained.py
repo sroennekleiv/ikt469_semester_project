@@ -5,7 +5,7 @@ import torch.nn.functional as F
 import open_clip
 
 class PretrainedCLIPModel(nn.Module):
-    def __init__(self, model_arc='ViT-B-32', pretrained='openai', embedding_dim=512, projection_dim=128, num_classes=10, freeze=True, device='cuda'):
+    def __init__(self, model_arc='ViT-B-32', pretrained='openai', embedding_dim=512, num_classes=10, freeze=True, device='cuda'):
         super().__init__()
         self.device = device
 
@@ -18,13 +18,6 @@ class PretrainedCLIPModel(nn.Module):
                 param.requires_grad = False
 
         self.embedding_dim = embedding_dim
-
-        self.projection_head = nn.Sequential(
-            nn.Linear(self.embedding_dim, 256),
-            nn.ReLU(inplace=True),
-            nn.Dropout(0.2),
-            nn.Linear(256, projection_dim)
-        )
 
         self.classifier = nn.Sequential(
             nn.Linear(embedding_dim, 256),
@@ -54,11 +47,6 @@ class PretrainedCLIPModel(nn.Module):
         )
 
         return image_features
-
-    def project_func(self, x):
-        projection = self.projection_head(x)
-        projection = F.normalize(projection, dim=-1)
-        return projection
     
     def classification_func(self, x):
         logits = self.classifier(x)
@@ -66,11 +54,9 @@ class PretrainedCLIPModel(nn.Module):
     
     def forward(self, x):
         embedding = self.encode_func(x)
-        proj = self.project_func(embedding)
         logits = self.classification_func(embedding)
 
         return {
             "embedding": embedding,
-            "projection": proj,
             "logits": logits
         }
